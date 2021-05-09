@@ -188,7 +188,7 @@ int main() {
         if (fileReaded)
             resultMenu(avlTree, binaryTree, tempoExecucaoAVL, tempoExecucaoBinary);
 
-        fileReaded = false;
+        fileReaded = true;
         free(avlTree);
         free(binaryTree);
     }

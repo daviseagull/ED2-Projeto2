@@ -11,23 +11,15 @@ private:
 
 public:
     BinaryNode(string value);
-
+    virtual ~BinaryNode();
     int getRepeticoes();
-
     void setRepeticoes(int value);
-
     string getChave();
-
     BinaryNode* getEsq();
-
     BinaryNode* getDir();
-
     void setEsq(BinaryNode *no);
-
     void setDir(BinaryNode *no);
-
     void aumentaRepeticoes();
-
 };
 
 #endif

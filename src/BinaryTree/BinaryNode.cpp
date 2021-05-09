@@ -11,6 +11,11 @@ BinaryNode::BinaryNode(string value){
     dir = NULL;
 }
 
+BinaryNode::~BinaryNode(){
+    free(esq);
+    free(dir);
+}
+
 int BinaryNode::getRepeticoes(){
     return repeticoes;
 }

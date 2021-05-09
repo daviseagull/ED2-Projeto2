@@ -17,7 +17,8 @@ AVLNode::AVLNode(string valor) {
 }
 
 AVLNode::~AVLNode() {
-    //dtor
+    free(left);
+    free(right);
 }
 
 void AVLNode::setData(string d) {

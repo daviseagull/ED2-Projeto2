@@ -12,8 +12,7 @@ AVLTree::AVLTree()
 
 AVLTree::~AVLTree()
 {
-    //destrutor
-    //TODO - Implementar destrutor
+    free(root);
 }
 
 bool AVLTree::isEmpty() {
