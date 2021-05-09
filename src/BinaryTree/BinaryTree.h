@@ -11,19 +11,14 @@ private:
 public:
     BinaryTree();
 
-    int getComparacoes();
-
     void aumentaComparacoes();
-
     void imprimeArvore(BinaryNode* no);
-
     void inserir(string chave);
-
     void inserirAux(BinaryNode *no, string chave);
 
-    bool buscarValor(BinaryNode *raiz, string valor);
-
     BinaryNode* getRaiz();
+    int getComparacoes();
+
 };
 
 #endif

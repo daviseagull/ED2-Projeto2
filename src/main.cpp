@@ -6,8 +6,8 @@
 
 bool fileReaded = true;
 
-bool verifyOption(int option, int initialValue, int finalValue) {
-    for(int i = initialValue; i <= finalValue; i++) {
+bool verifyOption(int option, int finalValue) {
+    for(int i = 0; i <= finalValue; i++) {
         if (option == i)
             return true;
     }
@@ -17,7 +17,6 @@ bool verifyOption(int option, int initialValue, int finalValue) {
 int fileMenu() {
 
     int option;
-    int initialValue = 0;
     int finalValue = 3;
     bool verified = false;
 
@@ -32,9 +31,9 @@ int fileMenu() {
         cout << " |___________________________________________________| \n";
         cout << " |             Menu - Escolha do Arquivo             | \n";
         cout << " |                                                   | \n";
-        cout << " |              1 - Arquivo1               | \n";
-        cout << " |             2 - Arquivo2             | \n";
-        cout << " |           3 - Arquivo3          | \n";
+        cout << " |                1 - Arquivo Texto 1                | \n";
+        cout << " |                2 - Arquivo Texto 2                | \n";
+        cout << " |                3 - Arquivo Texto 3                | \n";
         cout << " |                     0 - sair                      | \n";
         cout << " |                                                   | \n";
         cout << " |___________________________________________________| \n";
@@ -42,7 +41,7 @@ int fileMenu() {
         cout << "\nDigite a opcao desejada: ";
         cin >> option;
 
-        bool verified = verifyOption(option, initialValue, finalValue);
+        bool verified = verifyOption(option, finalValue);
         if (!verified)
             cout << "Digite um valor valido";
         else
@@ -52,23 +51,27 @@ int fileMenu() {
 
 void resultMenu(AVLTree* avlTree, BinaryTree* binaryTree, double tempoExecucaoAVL, double tempoExecucaoBinary){
 
+
     cout << "Arvore Binaria de Busca: \n";
     cout << binaryTree->getComparacoes() << " Comparacoes\n";
     cout << "Tempo de execucao: " << tempoExecucaoBinary << endl;
-    binaryTree->imprimeArvore(binaryTree->getRaiz()) ;
-    cout << endl;
+    cout << "Frequencia das palavras em ordem alfabetica: \n";
+    binaryTree->imprimeArvore(binaryTree->getRaiz());
+    cout << "\nTrending Topics: \n";
 
-    cout << "Arvore AVL: \n";
+    cout << "\n\nArvore AVL: \n";
     cout << avlTree->getQtd() << " Comparacoes\n";
     cout << "Tempo de execucao: " << tempoExecucaoAVL << endl;
+    cout << "Frequencia das palavras em ordem alfabetica: \n";
     avlTree->inOrder();
+    cout << "\nTrending Topics: \n";
 }
 
-void readFileToBinaryTree(int fileOption, BinaryTree* binaryTree) {
+void readFile(int fileOption, BinaryTree* binaryTree) {
     string line;
 
     if(fileOption == 1) {
-        ifstream myfile("../data/teste.txt");
+        ifstream myfile("../data/Arquivo1.txt");
         if (myfile.is_open()) {
             while (getline(myfile, line)) {
                 binaryTree->inserir(line);
@@ -81,7 +84,7 @@ void readFileToBinaryTree(int fileOption, BinaryTree* binaryTree) {
 
     }
     else if(fileOption == 2) {
-        ifstream myfile("../data/teste1.txt");
+        ifstream myfile("../data/Arquivo2.txt");
         if (myfile.is_open()) {
             while (getline(myfile, line)) {
                 binaryTree->inserir(line);
@@ -93,7 +96,7 @@ void readFileToBinaryTree(int fileOption, BinaryTree* binaryTree) {
         }
     }
     else {
-        ifstream myfile("../data/teste2.txt");
+        ifstream myfile("../data/Arquivo3.txt");
         if (myfile.is_open()) {
             while (getline(myfile, line)) {
                 binaryTree->inserir(line);
@@ -106,11 +109,11 @@ void readFileToBinaryTree(int fileOption, BinaryTree* binaryTree) {
     }
 }
 
-void readFileToAVL(int fileOption, AVLTree* avlTree){
+void readFile(int fileOption, AVLTree* avlTree){
     string line;
 
     if(fileOption == 1) {
-        ifstream file("../data/teste.txt");
+        ifstream file("../data/Arquivo1.txt");
         if (file.is_open()) {
             while (getline(file, line)) {
                 avlTree->inserir(line);
@@ -122,7 +125,7 @@ void readFileToAVL(int fileOption, AVLTree* avlTree){
         }
     }
     if(fileOption == 2) {
-        ifstream file("../data/teste1.txt");
+        ifstream file("../data/Arquivo2.txt");
         if (file.is_open()) {
             while (getline(file, line)) {
                 avlTree->inserir(line);
@@ -134,7 +137,7 @@ void readFileToAVL(int fileOption, AVLTree* avlTree){
         }
     }
     if(fileOption == 3) {
-        ifstream file("../data/teste2.txt");
+        ifstream file("../data/Arquivo3.txt");
         if (file.is_open()) {
             while (getline(file, line)) {
                 avlTree->inserir(line);
@@ -152,7 +155,7 @@ double saveFile(AVLTree* Tree, int fileOption){
     clock_t tempoFinalAVL;
 
     tempoInicialAVL = clock();
-    readFileToAVL(fileOption, Tree);
+    readFile(fileOption, Tree);
     tempoFinalAVL = clock();
 
     return (tempoFinalAVL - tempoInicialAVL)/(double) CLOCKS_PER_SEC;
@@ -163,7 +166,7 @@ double saveFile(BinaryTree* Tree, int fileOption){
     clock_t tempoFinalAVL;
 
     tempoInicialAVL = clock();
-    readFileToBinaryTree(fileOption, Tree);
+    readFile(fileOption, Tree);
     tempoFinalAVL = clock();
 
     return (tempoFinalAVL - tempoInicialAVL)/(double) CLOCKS_PER_SEC;
@@ -192,6 +195,5 @@ int main() {
         free(avlTree);
         free(binaryTree);
     }
-
     return 0;
 }

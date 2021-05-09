@@ -46,28 +46,6 @@ void BinaryTree::inserirAux(BinaryNode *no, string chave) {
     }
 }
 
-bool BinaryTree::buscarValor(BinaryNode *raiz, string valor){
-
-    if (valor == raiz->getChave())
-        return true;
-
-    else if(valor < raiz->getChave()){
-
-        if (raiz->getEsq() == NULL)
-            return false;
-
-        else
-            buscarValor(raiz->getEsq(), valor);
-
-    } else if(valor > raiz->getChave()){
-
-        if (raiz->getDir() == NULL)
-            return false;
-
-        else
-            buscarValor(raiz->getDir(), valor);
-    }
-}
 
 int BinaryTree::getComparacoes() {
     return this->comparacoes;
