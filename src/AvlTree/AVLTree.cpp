@@ -193,14 +193,16 @@ void AVLTree::reverseOrder(AVLNode *no) {
 void AVLTree::gerarTopTrendings(AVLNode * no) {
     if(no != NULL){
         gerarTopTrendings(no->getLeft());
-        topTrendings.insert({no->getData(),no->getQuantity()});
+        Elemento * e = new Elemento(no->getData(), no->getQuantity());
+        topTrendings.push_back(e);
         gerarTopTrendings(no->getRight());
     }
 }
 
 void AVLTree::imprimirTopTrendings(){
+    topTrendings.sort([](Elemento * lhs, Elemento* rhs){return lhs->getValor() > rhs->getValor();});
     for(auto& el: topTrendings){
-        el.print_element();
+        el->print_element();
     }
 }
 

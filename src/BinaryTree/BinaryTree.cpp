@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 #include "BinaryNode.h"
 #include "BinaryTree.h"
@@ -50,14 +51,16 @@ void BinaryTree::inserirAux(BinaryNode *no, string chave) {
 void BinaryTree::gerarTopTrendings(BinaryNode * no) {
     if(no != NULL){
         gerarTopTrendings(no->getEsq());
-        topTrendings.insert({no->getChave(),no->getRepeticoes()});
+        Elemento * e = new Elemento(no->getChave(), no->getRepeticoes());
+        topTrendings.push_back(e);
         gerarTopTrendings(no->getDir());
     }
 }
 
 void BinaryTree::imprimirTopTrendings(){
+    topTrendings.sort([](Elemento * lhs, Elemento* rhs){return lhs->getValor() > rhs->getValor();});
     for(auto& el: topTrendings){
-        el.print_element();
+        el->print_element();
     }
 }
 

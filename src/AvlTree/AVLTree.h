@@ -2,7 +2,7 @@
 #define AVLTREE_H
 #include "AVLNode.h"
 #include "../List/elemento.h"
-#include <set>
+#include <list>
 #include <iostream>
 
 using namespace std;
@@ -32,7 +32,7 @@ protected:
 private:
     AVLNode *root;
     int qtd;
-    set<Elemento> topTrendings;
+    list<Elemento*> topTrendings;
 
     int height(AVLNode*);
     int qtNodes(AVLNode*);

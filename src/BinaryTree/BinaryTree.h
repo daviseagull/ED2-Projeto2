@@ -4,7 +4,7 @@
 #include "BinaryNode.h"
 #include "../List/elemento.h"
 #include <iostream>
-#include <set>
+#include <list>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ class BinaryTree {
 private:
     BinaryNode *raiz;
     int comparacoes = 0;
-    set<Elemento> topTrendings;
+    list<Elemento*> topTrendings;
 
 public:
     BinaryTree();
