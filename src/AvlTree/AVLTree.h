@@ -22,7 +22,8 @@ private:
     AVLNode* rotateRR(AVLNode*);
     AVLNode* rotateLR(AVLNode*);
     AVLNode* rotateRL(AVLNode*);
-    int maximo(int, int);
+    int max(int lhs, int rhs);
+    void printBT(string prefix, AVLNode* node, bool isLeft);
 
 public:
     AVLTree();
@@ -38,7 +39,7 @@ public:
     void addComparisons();
     void printTopTrendings();
     void generateTopTrendings(AVLNode* node);
-
+    void printBT(AVLNode* node);
 };
 
 #endif // AVLTREE_H

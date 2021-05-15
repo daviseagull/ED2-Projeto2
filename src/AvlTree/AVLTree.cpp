@@ -25,7 +25,7 @@ int AVLTree::height(AVLNode *no) {
     return no == NULL ? -1 : no->getHeight();
 }
 
-int AVLTree::maximo(int lhs, int rhs) {
+int AVLTree::max(int lhs, int rhs) {
     return lhs > rhs ? lhs : rhs;
 }
 
@@ -92,7 +92,7 @@ AVLNode *AVLTree::insert(AVLNode *node, string value) {
         }
     }
 
-    node->setHeight(maximo(height(node->getLeft()), height(node->getRight())) + 1);
+    node->setHeight(max(height(node->getLeft()), height(node->getRight())) + 1);
 
     return node;
 }
@@ -103,9 +103,9 @@ AVLNode *AVLTree::rotateLL(AVLNode *node) {
     node->setLeft(leftSubTree->getRight());
     leftSubTree->setRight(node);
 
-    node->setHeight(maximo(height(node->getLeft()), height(node->getRight())) + 1);
+    node->setHeight(max(height(node->getLeft()), height(node->getRight())) + 1);
 
-    leftSubTree->setHeight(maximo(height(leftSubTree->getLeft()), height(node) + 1));
+    leftSubTree->setHeight(max(height(leftSubTree->getLeft()), height(node) + 1));
 
     return leftSubTree;
 }
@@ -116,9 +116,9 @@ AVLNode *AVLTree::rotateRR(AVLNode *node) {
     node->setRight(rightSubTree->getLeft());
     rightSubTree->setLeft(node);
 
-    node->setHeight(maximo(height(node->getLeft()), height(node->getRight())) + 1);
+    node->setHeight(max(height(node->getLeft()), height(node->getRight())) + 1);
 
-    rightSubTree->setHeight(maximo(height(rightSubTree->getRight()), height(node) + 1));
+    rightSubTree->setHeight(max(height(rightSubTree->getRight()), height(node) + 1));
 
     return rightSubTree;
 }
@@ -142,7 +142,7 @@ void AVLTree::inOrder() {
 void AVLTree::inOrder(AVLNode *node) {
     if (node != NULL) {
         inOrder(node->getLeft());
-        cout << node->getData() << ": " << node->getQuantity() << endl;
+        cout << "     " << node->getData() << ": " << node->getQuantity() << endl;
         inOrder(node->getRight());
     }
 }
@@ -161,6 +161,25 @@ void AVLTree::printTopTrendings() {
     for (auto &el: topTrendings) {
         el->printElement();
     }
+}
+
+void AVLTree::printBT(string prefix, AVLNode* node, bool isLeft)
+{
+    if( node != nullptr )
+    {
+        std::cout << prefix;
+
+        std::cout << (isLeft ? "|--" : "|--" );
+
+        std::cout << node->getData() << std::endl;
+
+        printBT( prefix + (isLeft ? "|   " : "    "), node->getLeft(), true);
+        printBT( prefix + (isLeft ? "|   " : "    "), node->getRight(), false);
+    }
+}
+
+void AVLTree::printBT(AVLNode *node) {
+    printBT("", node, false);
 }
 
 

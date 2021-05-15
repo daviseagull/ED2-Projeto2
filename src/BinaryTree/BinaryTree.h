@@ -13,6 +13,7 @@ private:
     BinaryNode *root;
     int comparisons = 0;
     list<Element*> topTrendings;
+    void printBT(string prefix, BinaryNode* node, bool isLeft);
 
 public:
     BinaryTree();
@@ -24,6 +25,7 @@ public:
     void generateTopTrendings(BinaryNode*node);
     BinaryNode* getRoot();
     int getComparisons();
+    void printBT(BinaryNode* node);
 };
 
 #endif

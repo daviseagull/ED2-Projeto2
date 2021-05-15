@@ -14,7 +14,7 @@ void Element::setRepetitions(int v){
 }
 
 void Element::printElement() const {
-    cout << word << ": " << repetitions << endl;
+    cout << "     " << word << ": " << repetitions << endl;
 }
 
 void Element::setWord(string word) {

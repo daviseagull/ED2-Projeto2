@@ -3,8 +3,9 @@
 #include "BinaryTree/BinaryTree.h"
 #include "AvlTree/AVLTree.h"
 #include <time.h>
+#include <conio.h>
 
-bool fileReaded = false;
+bool fileReaded = true;
 
 //Metodo utilizado para verificar se a opcao escolhida pelo usuario eh valida
 bool verifyOption(int option, int finalValue) {
@@ -23,7 +24,6 @@ int fileMenu() {
     bool verified = false;
 
     while (!verified) {
-        cout << "\n\n";
         cout << "  ___________________________________________________  \n";
         cout << " |                                                   | \n";
         cout << " |                   Projeto - 2                     | \n";
@@ -36,7 +36,7 @@ int fileMenu() {
         cout << " |                1 - Arquivo Texto 1                | \n";
         cout << " |                2 - Arquivo Texto 2                | \n";
         cout << " |                3 - Arquivo Texto 3                | \n";
-        cout << " |                     0 - sair                      | \n";
+        cout << " |                     0 - Sair                      | \n";
         cout << " |                                                   | \n";
         cout << " |___________________________________________________| \n";
 
@@ -45,35 +45,84 @@ int fileMenu() {
 
         bool verified = verifyOption(option, finalValue);
         if (!verified)
-            cout << "Digite um repetitions valido";
+            cout << "\nDigite uma opcao valida\n";
         else
             return option;
     }
 }
 
-//Metodo que imprime todos os resultados da analise
-void resultMenu(AVLTree *avlTree, BinaryTree *binaryTree, double executionTimeAVL, double executionTimeBinary) {
-    cout << "Arvore Binaria de Busca: \n" << binaryTree->getComparisons() << " Comparacoes\n";
+//Menu para escolher quais resultados serao exibidos
+int optionMenu() {
+    int option;
+    int finalValue = 5;
+    bool verified = false;
 
+    while (!verified) {
+        cout << "  ___________________________________________________ \n";
+        cout << " |                 Menu - Resultados                 | \n";
+        cout << " |                                                   | \n";
+        cout << " |           1 - Visualizar Resultados AVL           | \n";
+        cout << " |           2 - Visualizar Resultados BST           | \n";
+        cout << " |        3 - Visualizar Resultados Resumidos        | \n";
+        cout << " |                 4 - Visualizar AVL                | \n";
+        cout << " |                 5 - Visualizar BST                | \n";
+        cout << " |                    0 - Voltar                     | \n";
+        cout << " |                                                   | \n";
+        cout << " |___________________________________________________| \n";
+
+        cout << "\nDigite a opcao desejada: ";
+        cin >> option;
+
+        bool verified = verifyOption(option, finalValue);
+        if (!verified)
+            cout << "Digite uma opcao valida";
+        else
+            return option;
+    }
+}
+
+//Metodo que imprime os resultados da BST
+void resultMenu(BinaryTree *binaryTree, double executionTimeBinary) {
+    cout << "\nArvore Binaria de Busca: \n" << binaryTree->getComparisons() << " Comparacoes\n";
     cout << "Tempo de execucao: " << executionTimeBinary << endl;
-
     cout << "Frequencia das palavras em ordem alfabetica: \n";
     binaryTree->print(binaryTree->getRoot());
-
     cout << "\nTrending Topics: \n";
     binaryTree->generateTopTrendings(binaryTree->getRoot());
     binaryTree->printTopTrendings();
 
-    cout << "\n\nArvore AVL: \n" << avlTree->getComparisons() << " Comparacoes\n";
+}
 
+//Metodo que imprime os resultados da AVL
+void resultMenu(AVLTree *avlTree, double executionTimeAVL) {
+    cout << "\nArvore AVL: \n" << avlTree->getComparisons() << " Comparacoes\n";
     cout << "Tempo de execucao: " << executionTimeAVL << endl;
-
     cout << "Frequencia das palavras em ordem alfabetica: \n";
     avlTree->inOrder();
-
     cout << "\nTrending Topics: \n";
     avlTree->generateTopTrendings(avlTree->getRoot());
     avlTree->printTopTrendings();
+}
+
+//Metodo para imprimir todos os resultados simplificados (sem a frequencia e topTrendings)
+void resultSimplifiedMenu(AVLTree* avlTree, BinaryTree* binaryTree, double executionTimeBinary, double executionTimeAVL){
+    cout << "\nArvore AVL: \n" << avlTree->getComparisons() << " Comparacoes\n";
+    cout << "Tempo de execucao: " << executionTimeAVL << endl;
+
+    cout << "\nArvore Binaria de Busca: \n" << binaryTree->getComparisons() << " Comparacoes\n";
+    cout << "Tempo de execucao: " << executionTimeBinary << endl;
+}
+
+//Metodo para imprimir a AVL formatada
+void printAVL(AVLTree *avlTree) {
+    cout << "Arvore AVL: \n";
+    avlTree->printBT(avlTree->getRoot());
+}
+
+//Metodo para imprimir a BST formatada
+void printBST(BinaryTree *binaryTree) {
+    cout << "Arvore Binaria de Busca (BST): \n";
+    binaryTree->printBT(binaryTree->getRoot());
 }
 
 //Metodo para leitura das palavras e insercao na arvore binaria
@@ -96,9 +145,9 @@ void readFile(int fileOption, BinaryTree *binaryTree) {
             binaryTree->insert(line); //insercao na arvore binaria
         }
         myfile.close();
-        fileReaded = true;
     } else {
         cout << "Unable to open file\n";
+        fileReaded = false;
     }
 }
 
@@ -121,9 +170,9 @@ void readFile(int fileOption, AVLTree *avlTree) {
             avlTree->insert(line); //insercao na arvore AVL
         }
         file.close();
-        fileReaded = true;
     } else {
         cout << "Unable to open file\n";
+        fileReaded = false;
     }
 }
 
@@ -156,11 +205,14 @@ int main() {
     bool menu = true;
 
     while (menu) {
+        bool subMenu = true;
         int fileOption = fileMenu();
         if (fileOption == 0) {
             menu = false;
             break;
         }
+
+        system("cls");
 
         AVLTree *avlTree = new AVLTree();
         BinaryTree *binaryTree = new BinaryTree();
@@ -169,12 +221,40 @@ int main() {
         executionTimeAVL = saveFile(avlTree, fileOption);
         executionTimeBinary = saveFile(binaryTree, fileOption);
 
-        if (fileReaded)
-            resultMenu(avlTree, binaryTree, executionTimeAVL, executionTimeBinary);
+        if (fileReaded) {
+            while (subMenu) {
+                system("cls");
+                int option = optionMenu();
+                if (option == 0) {
+                    subMenu = false;
+                    break;
+                }
+                if (option == 1)
+                    resultMenu(avlTree, executionTimeAVL);
+                else if (option == 2)
+                    resultMenu(binaryTree, executionTimeBinary);
+                else if(option == 3)
+                    resultSimplifiedMenu(avlTree,binaryTree,executionTimeBinary,executionTimeAVL);
+                else if (option == 4)
+                    printAVL(avlTree);
+                else
+                    printBST(binaryTree);
 
-        fileReaded = false;
+                cout << "\nAperte qualquer tecla para voltar ao menu";
+                getch();
+                system("cls");
+            }
+        }
+
+        fileReaded = true;
         free(avlTree);
         free(binaryTree);
+
+        cout << "\nAperte qualquer tecla para voltar ao menu";
+        getch();
+        system("cls");
+
     }
+
     return 0;
 }

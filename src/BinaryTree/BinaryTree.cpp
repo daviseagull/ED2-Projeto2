@@ -14,7 +14,7 @@ BinaryTree::BinaryTree() {
 void BinaryTree::print(BinaryNode* node){
     if(node != NULL){
         print(node->getLeft());
-        cout << node->getKey() << ": " << node->getQuantity() << endl;
+        cout << "     " << node->getKey() << ": " << node->getQuantity() << endl;
         print(node->getRight());
     }
 }
@@ -74,4 +74,23 @@ void BinaryTree::addComparisons() {
 
 BinaryNode* BinaryTree::getRoot() {
     return root;
+}
+
+void BinaryTree::printBT(string prefix, BinaryNode* node, bool isLeft)
+{
+    if( node != nullptr )
+    {
+        std::cout << prefix;
+
+        std::cout << (isLeft ? "|--" : "|--" );
+
+        std::cout << node->getKey() << std::endl;
+
+        printBT( prefix + (isLeft ? "|   " : "    "), node->getLeft(), true);
+        printBT( prefix + (isLeft ? "|   " : "    "), node->getRight(), false);
+    }
+}
+
+void BinaryTree::printBT(BinaryNode *node) {
+    printBT("", node, false);
 }
