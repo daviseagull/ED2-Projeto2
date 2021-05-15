@@ -5,31 +5,29 @@
 
 using namespace std;
 
-class AVLNode
-{
+class AVLNode {
+private:
+    AVLNode *left, *right;
+    string data;
+    int height;
+    int quantity;
+
 public:
     AVLNode();
-    AVLNode(string);
+    AVLNode(string value);
     virtual ~AVLNode();
     string getData();
     int getHeight();
     void setData(string);
     void setHeight(int);
-    AVLNode* getLeft();
-    AVLNode* getRight();
-    void setRight(AVLNode*);
-    void setLeft(AVLNode*);
+    AVLNode *getLeft();
+    AVLNode *getRight();
+    void setRight(AVLNode *);
+    void setLeft(AVLNode *);
     void addQuantity();
     void setQuantity();
     int getQuantity();
 
-protected:
-
-private:
-    AVLNode* left, *right;
-    string data;
-    int height;
-    int quantity;
 };
 
 #endif // AVLNODE_H

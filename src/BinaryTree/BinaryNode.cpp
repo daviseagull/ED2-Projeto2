@@ -5,47 +5,43 @@
 using namespace std;
 
 BinaryNode::BinaryNode(string value){
-    this->chave = value;
-    this->repeticoes = 1;
-    esq = NULL;
-    dir = NULL;
+    this->key = value;
+    this->quantity = 1;
+    left = NULL;
+    right = NULL;
 }
 
 BinaryNode::~BinaryNode(){
-    free(esq);
-    free(dir);
+    free(left);
+    free(right);
 }
 
-int BinaryNode::getRepeticoes(){
-    return repeticoes;
+int BinaryNode::getQuantity(){
+    return quantity;
 }
 
-void BinaryNode::setRepeticoes(int value){
-    repeticoes = value;
+string BinaryNode::getKey(){
+    return key;
 }
 
-string BinaryNode::getChave(){
-    return chave;
+BinaryNode* BinaryNode::getLeft(){
+    return left;
 }
 
-BinaryNode* BinaryNode::getEsq(){
-    return esq;
+BinaryNode* BinaryNode::getRight(){
+    return right;
 }
 
-BinaryNode* BinaryNode::getDir(){
-    return dir;
+void BinaryNode::setLeft(BinaryNode *node){
+    left = node;
 }
 
-void BinaryNode::setEsq(BinaryNode *no){
-    esq = no;
+void BinaryNode::setRight(BinaryNode *node){
+    right = node;
 }
 
-void BinaryNode::setDir(BinaryNode *no){
-    dir = no;
-}
-
-void BinaryNode::aumentaRepeticoes(){
-    repeticoes++;
+void BinaryNode::sumOneToQuantity(){
+    quantity++;
 }
 
 

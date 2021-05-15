@@ -4,8 +4,9 @@
 #include "AvlTree/AVLTree.h"
 #include <time.h>
 
-bool fileReaded = true;
+bool fileReaded = false;
 
+//Metodo utilizado para verificar se a opcao escolhida pelo usuario eh valida
 bool verifyOption(int option, int finalValue) {
     for (int i = 0; i <= finalValue; i++) {
         if (option == i)
@@ -14,6 +15,7 @@ bool verifyOption(int option, int finalValue) {
     return false;
 }
 
+//Menu para escolha do arquivo que sera base para a analise
 int fileMenu() {
 
     int option;
@@ -43,133 +45,111 @@ int fileMenu() {
 
         bool verified = verifyOption(option, finalValue);
         if (!verified)
-            cout << "Digite um valor valido";
+            cout << "Digite um repetitions valido";
         else
             return option;
     }
 }
 
-void resultMenu(AVLTree *avlTree, BinaryTree *binaryTree, double tempoExecucaoAVL, double tempoExecucaoBinary) {
-    cout << "Arvore Binaria de Busca: \n";
-    cout << binaryTree->getComparacoes() << " Comparacoes\n";
-    cout << "Tempo de execucao: " << tempoExecucaoBinary << endl;
-    cout << "Frequencia das palavras em ordem alfabetica: \n";
-    binaryTree->imprimeArvore(binaryTree->getRaiz());
-    cout << "\nTrending Topics: \n";
-    binaryTree->gerarTopTrendings(binaryTree->getRaiz());
-    binaryTree->imprimirTopTrendings();
+//Metodo que imprime todos os resultados da analise
+void resultMenu(AVLTree *avlTree, BinaryTree *binaryTree, double executionTimeAVL, double executionTimeBinary) {
+    cout << "Arvore Binaria de Busca: \n" << binaryTree->getComparisons() << " Comparacoes\n";
 
-    cout << "\n\nArvore AVL: \n";
-    cout << avlTree->getQtd() << " Comparacoes\n";
-    cout << "Tempo de execucao: " << tempoExecucaoAVL << endl;
+    cout << "Tempo de execucao: " << executionTimeBinary << endl;
+
+    cout << "Frequencia das palavras em ordem alfabetica: \n";
+    binaryTree->print(binaryTree->getRoot());
+
+    cout << "\nTrending Topics: \n";
+    binaryTree->generateTopTrendings(binaryTree->getRoot());
+    binaryTree->printTopTrendings();
+
+    cout << "\n\nArvore AVL: \n" << avlTree->getComparisons() << " Comparacoes\n";
+
+    cout << "Tempo de execucao: " << executionTimeAVL << endl;
+
     cout << "Frequencia das palavras em ordem alfabetica: \n";
     avlTree->inOrder();
+
     cout << "\nTrending Topics: \n";
-    avlTree->gerarTopTrendings(avlTree->getRoot());
-    avlTree->imprimirTopTrendings();
+    avlTree->generateTopTrendings(avlTree->getRoot());
+    avlTree->printTopTrendings();
 }
 
+//Metodo para leitura das palavras e insercao na arvore binaria
 void readFile(int fileOption, BinaryTree *binaryTree) {
     string line;
+    string fileName;
 
-    if (fileOption == 1) {
-        ifstream myfile("../data/Arquivo1.txt");
-        if (myfile.is_open()) {
-            while (getline(myfile, line)) {
-                binaryTree->inserir(line);
-            }
-            myfile.close();
-        } else {
-            cout << "Unable to open file\n";
-            fileReaded = false;
-        }
+    //sequencia de if para definir o nome do arquivo que sera utilizado
+    if (fileOption == 1)
+        fileName = "Arquivo1";
+    else if (fileOption == 2)
+        fileName = "Arquivo2";
+    else
+        fileName = "Arquivo3";
 
-    } else if (fileOption == 2) {
-        ifstream myfile("../data/Arquivo2.txt");
-        if (myfile.is_open()) {
-            while (getline(myfile, line)) {
-                binaryTree->inserir(line);
-            }
-            myfile.close();
-        } else {
-            cout << "Unable to open file\n";
-            fileReaded = false;
+    //inicio da leitura do arquivo selecionado
+    ifstream myfile("../data/" + fileName + ".txt");
+    if (myfile.is_open()) {
+        while (getline(myfile, line)) {
+            binaryTree->insert(line); //insercao na arvore binaria
         }
+        myfile.close();
+        fileReaded = true;
     } else {
-        ifstream myfile("../data/Arquivo3.txt");
-        if (myfile.is_open()) {
-            while (getline(myfile, line)) {
-                binaryTree->inserir(line);
-            }
-            myfile.close();
-        } else {
-            cout << "Unable to open file\n";
-            fileReaded = false;
-        }
+        cout << "Unable to open file\n";
     }
 }
 
+//Metodo para leitura das palavras e insercao na arvore AVL
 void readFile(int fileOption, AVLTree *avlTree) {
     string line;
+    string fileName;
 
-    if (fileOption == 1) {
-        ifstream file("../data/Arquivo1.txt");
-        if (file.is_open()) {
-            while (getline(file, line)) {
-                avlTree->inserir(line);
-            }
-            file.close();
-        } else {
-            cout << "Unable to open file\n";
-            fileReaded = false;
+    //sequencia de if para definir o nome do arquivo que sera utilizado
+    if (fileOption == 1)
+        fileName = "Arquivo1";
+    else if (fileOption == 2)
+        fileName = "Arquivo2";
+    else
+        fileName = "Arquivo3";
+
+    ifstream file("../data/" + fileName + ".txt");
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            avlTree->insert(line); //insercao na arvore AVL
         }
-    }
-    if (fileOption == 2) {
-        ifstream file("../data/Arquivo2.txt");
-        if (file.is_open()) {
-            while (getline(file, line)) {
-                avlTree->inserir(line);
-            }
-            file.close();
-        } else {
-            cout << "Unable to open file\n";
-            fileReaded = false;
-        }
-    }
-    if (fileOption == 3) {
-        ifstream file("../data/Arquivo3.txt");
-        if (file.is_open()) {
-            while (getline(file, line)) {
-                avlTree->inserir(line);
-            }
-            file.close();
-        } else {
-            cout << "Unable to open file\n";
-            fileReaded = false;
-        }
+        file.close();
+        fileReaded = true;
+    } else {
+        cout << "Unable to open file\n";
     }
 }
 
-double saveFile(AVLTree *Tree, int fileOption) {
-    clock_t tempoInicialAVL;
-    clock_t tempoFinalAVL;
-
-    tempoInicialAVL = clock();
-    readFile(fileOption, Tree);
-    tempoFinalAVL = clock();
-
-    return (tempoFinalAVL - tempoInicialAVL) / (double) CLOCKS_PER_SEC;
-}
-
+//metodo utilizado para cronometrar o tempo gasto para insert na arvore binaria
 double saveFile(BinaryTree *Tree, int fileOption) {
-    clock_t tempoInicialAVL;
-    clock_t tempoFinalAVL;
+    clock_t initialTimeBinary;
+    clock_t finalTimeBinary;
 
-    tempoInicialAVL = clock();
+    initialTimeBinary = clock();
     readFile(fileOption, Tree);
-    tempoFinalAVL = clock();
+    finalTimeBinary = clock();
 
-    return (tempoFinalAVL - tempoInicialAVL) / (double) CLOCKS_PER_SEC;
+    return (finalTimeBinary - initialTimeBinary) /
+           (double) CLOCKS_PER_SEC; //return o tempo gasto para insert na arvore
+}
+
+//metodo utilizado para cronometrar o tempo gasto para insert na arvore AVL
+double saveFile(AVLTree *Tree, int fileOption) {
+    clock_t initialTimeAVL;
+    clock_t finalTimeAVL;
+
+    initialTimeAVL = clock();
+    readFile(fileOption, Tree);
+    finalTimeAVL = clock();
+
+    return (finalTimeAVL - initialTimeAVL) / (double) CLOCKS_PER_SEC; //return o tempo gasto para insert na arvore
 }
 
 int main() {
@@ -181,17 +161,18 @@ int main() {
             menu = false;
             break;
         }
+
         AVLTree *avlTree = new AVLTree();
         BinaryTree *binaryTree = new BinaryTree();
-        double tempoExecucaoBinary, tempoExecucaoAVL;
+        double executionTimeBinary, executionTimeAVL;
 
-        tempoExecucaoAVL = saveFile(avlTree, fileOption);
-        tempoExecucaoBinary = saveFile(binaryTree, fileOption);
+        executionTimeAVL = saveFile(avlTree, fileOption);
+        executionTimeBinary = saveFile(binaryTree, fileOption);
 
         if (fileReaded)
-            resultMenu(avlTree, binaryTree, tempoExecucaoAVL, tempoExecucaoBinary);
+            resultMenu(avlTree, binaryTree, executionTimeAVL, executionTimeBinary);
 
-        fileReaded = true;
+        fileReaded = false;
         free(avlTree);
         free(binaryTree);
     }

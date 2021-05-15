@@ -5,21 +5,20 @@ using namespace std;
 
 class BinaryNode {
 private:
-    BinaryNode *esq, *dir;
-    string chave;
-    int repeticoes;
+    BinaryNode *left, *right;
+    string key;
+    int quantity;
 
 public:
     BinaryNode(string value);
     virtual ~BinaryNode();
-    int getRepeticoes();
-    void setRepeticoes(int value);
-    string getChave();
-    BinaryNode* getEsq();
-    BinaryNode* getDir();
-    void setEsq(BinaryNode *no);
-    void setDir(BinaryNode *no);
-    void aumentaRepeticoes();
+    int getQuantity();
+    string getKey();
+    BinaryNode* getLeft();
+    BinaryNode* getRight();
+    void setLeft(BinaryNode *node);
+    void setRight(BinaryNode *node);
+    void sumOneToQuantity();
 };
 
 #endif

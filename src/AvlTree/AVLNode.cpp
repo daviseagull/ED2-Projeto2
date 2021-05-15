@@ -8,10 +8,10 @@ AVLNode::AVLNode() {
     quantity = 1;
 }
 
-AVLNode::AVLNode(string valor) {
+AVLNode::AVLNode(string value) {
     left = NULL;
     right = NULL;
-    data = valor;
+    data = value;
     quantity = 1;
     height = 0;
 }
@@ -21,31 +21,32 @@ AVLNode::~AVLNode() {
     free(right);
 }
 
-void AVLNode::setData(string d) {
-    data = d;
+void AVLNode::setData(string data) {
+    this->data = data;
 }
 
 string AVLNode::getData() {
     return data;
 }
 
-void AVLNode::setLeft(AVLNode *n) {
-    left = n;
+void AVLNode::setLeft(AVLNode *node) {
+    this->left = node;
 }
 
-AVLNode* AVLNode::getLeft() {
+AVLNode *AVLNode::getLeft() {
     return left;
 }
 
-void AVLNode::setRight(AVLNode *n) {
-    right = n;
+void AVLNode::setRight(AVLNode *node) {
+    this->right = node;
 }
-AVLNode* AVLNode::getRight() {
+
+AVLNode *AVLNode::getRight() {
     return right;
 }
 
-void AVLNode::setHeight(int h) {
-    height = h;
+void AVLNode::setHeight(int height) {
+    this->height = height;
 }
 
 int AVLNode::getHeight() {

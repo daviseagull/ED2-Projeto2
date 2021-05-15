@@ -3,75 +3,75 @@
 
 #include "BinaryNode.h"
 #include "BinaryTree.h"
-#include "../List/elemento.h"
+#include "../List/element.h"
 
 using namespace std;
 
 BinaryTree::BinaryTree() {
-    raiz = NULL;
+    root = NULL;
 }
 
-void BinaryTree::imprimeArvore(BinaryNode* no){
-    if(no != NULL){
-        imprimeArvore(no->getEsq());
-        cout << no->getChave() << ": " << no->getRepeticoes() << endl;
-        imprimeArvore(no->getDir());
+void BinaryTree::print(BinaryNode* node){
+    if(node != NULL){
+        print(node->getLeft());
+        cout << node->getKey() << ": " << node->getQuantity() << endl;
+        print(node->getRight());
     }
 }
 
-void BinaryTree::inserir(string chave) {
-    if(raiz == NULL)
-        raiz = new BinaryNode(chave);
+void BinaryTree::insert(string key) {
+    if(root == NULL)
+        root = new BinaryNode(key);
     else
-        inserirAux(raiz, chave);
+        insertAux(root, key);
 }
 
-void BinaryTree::inserirAux(BinaryNode *no, string chave) {
-    this->aumentaComparacoes();
-    if (chave == no->getChave())
-        no->aumentaRepeticoes();
+void BinaryTree::insertAux(BinaryNode *node, string key) {
+    this->addComparisons();
+    if (key == node->getKey())
+        node->sumOneToQuantity();
 
-    if(chave < no->getChave()) {
-        if(no->getEsq() == NULL) {
-            BinaryNode *novo_no = new BinaryNode(chave);
-            no->setEsq(novo_no);
+    if(key < node->getKey()) {
+        if(node->getLeft() == NULL) {
+            BinaryNode *novo_no = new BinaryNode(key);
+            node->setLeft(novo_no);
         } else
-            inserirAux(no->getEsq(), chave);
+            insertAux(node->getLeft(), key);
     }
 
-    else if(chave > no->getChave()) {
-        if(no->getDir() == NULL){
-            BinaryNode *novo_no = new BinaryNode(chave);
-            no->setDir(novo_no);
+    else if(key > node->getKey()) {
+        if(node->getRight() == NULL){
+            BinaryNode *novo_no = new BinaryNode(key);
+            node->setRight(novo_no);
         } else
-            inserirAux(no->getDir(), chave);
+            insertAux(node->getRight(), key);
     }
 }
 
-void BinaryTree::gerarTopTrendings(BinaryNode * no) {
-    if(no != NULL){
-        gerarTopTrendings(no->getEsq());
-        Elemento * e = new Elemento(no->getChave(), no->getRepeticoes());
+void BinaryTree::generateTopTrendings(BinaryNode * node) {
+    if(node != NULL){
+        generateTopTrendings(node->getLeft());
+        Element * e = new Element(node->getKey(), node->getQuantity());
         topTrendings.push_back(e);
-        gerarTopTrendings(no->getDir());
+        generateTopTrendings(node->getRight());
     }
 }
 
-void BinaryTree::imprimirTopTrendings(){
-    topTrendings.sort([](Elemento * lhs, Elemento* rhs){return lhs->getValor() > rhs->getValor();});
+void BinaryTree::printTopTrendings(){
+    topTrendings.sort([](Element * lhs, Element* rhs){return lhs->getRepetitions() > rhs->getRepetitions();});
     for(auto& el: topTrendings){
-        el->print_element();
+        el->printElement();
     }
 }
 
-int BinaryTree::getComparacoes() {
-    return this->comparacoes;
+int BinaryTree::getComparisons() {
+    return this->comparisons;
 }
 
-void BinaryTree::aumentaComparacoes() {
-    comparacoes += 1;
+void BinaryTree::addComparisons() {
+    comparisons += 1;
 }
 
-BinaryNode* BinaryTree::getRaiz() {
-    return raiz;
+BinaryNode* BinaryTree::getRoot() {
+    return root;
 }

@@ -3,28 +3,25 @@
 
 using namespace std;
 
-AVLTree::AVLTree()
-{
+AVLTree::AVLTree() {
     //ctor
     root = NULL;
-    setQtd(0);
+    setComparisons(0);
 }
 
-AVLTree::~AVLTree()
-{
+AVLTree::~AVLTree() {
     free(root);
 }
 
 bool AVLTree::isEmpty() {
-    return root==NULL;
+    return root == NULL;
 }
 
 int AVLTree::height() {
-    return height(root); //altura da árvore é a altura do seu nó raiz
+    return height(root);
 }
 
-int AVLTree::height(AVLNode *no){
-    /*Se o nó for NULL retorna -1, senão retorna o que vier do método getHeight()*/
+int AVLTree::height(AVLNode *no) {
     return no == NULL ? -1 : no->getHeight();
 }
 
@@ -36,61 +33,58 @@ int AVLTree::qtNodes() {
     return qtNodes(root);
 }
 
-int AVLTree::qtNodes(AVLNode* no) {
+int AVLTree::qtNodes(AVLNode *no) {
     if (no == NULL)
         return 0;
 
-    int qtleft = qtNodes (no->getLeft());
-    int qtright = qtNodes (no->getRight());
+    int qtleft = qtNodes(no->getLeft());
+    int qtright = qtNodes(no->getRight());
 
     return qtleft + qtright + 1;
 }
 
-int AVLTree::getQtd(){
-    return qtd;
+int AVLTree::getComparisons() {
+    return comparisons;
 }
 
-AVLNode* AVLTree::getRoot(){
+AVLNode *AVLTree::getRoot() {
     return root;
 }
 
-void AVLTree::setQtd(int q){
-    qtd = q;
+void AVLTree::setComparisons(int comparisons) {
+    this->comparisons = comparisons;
 }
 
-void AVLTree::addOneQtd(){
-    qtd++;
+void AVLTree::addComparisons() {
+    comparisons++;
 }
 
-/*Inserir é polimorfico. o Método publico é pra inserir na árvore. Esse método invoca o método privado, que é recursivo*/
-void AVLTree::inserir(string valor) {
-    root = inserir(root,valor);
+void AVLTree::insert(string value) {
+    root = insert(root, value);
 }
 
-AVLNode* AVLTree::inserir(AVLNode* node, string valor) {
-    addOneQtd();
-    /*Se é uma arvore ou subarvore vazia, cria 1 novo nó e retorna*/
+AVLNode *AVLTree::insert(AVLNode *node, string value) {
+    addComparisons();
     if (node == NULL)
-        return new AVLNode(valor);
-    if (valor == node->getData()){
+        return new AVLNode(value);
+    if (value == node->getData()) {
         node->addQuantity();
         return node;
     }
-    if (valor < node->getData()) {
-        node->setLeft(inserir(node->getLeft(), valor));
-        if( height( node->getRight() ) - height( node->getLeft() ) == -2 ) {
-            if(valor< node->getLeft()->getData()) {
+    if (value < node->getData()) {
+        node->setLeft(insert(node->getLeft(), value));
+        if (height(node->getRight()) - height(node->getLeft()) == -2) {
+            if (value < node->getLeft()->getData()) {
                 node = rotateLL(node);
             } else {
                 node = rotateLR(node);
             }
         }
-    }
-    else {
-        if (valor > node->getData()) {
-            node->setRight(inserir(node->getRight(),valor));
-            if( height( node->getRight() ) - height( node->getLeft() ) == 2 ) {
-                if( valor > node->getRight()->getData())
+    } else {
+        if (value > node->getData()) {
+            node->setRight(insert(node->getRight(), value));
+            if (height(node->getRight()) - height(node->getLeft()) == 2) {
+                if (value > node->getRight()->getData())
                     node = rotateRR(node);
                 else
                     node = rotateRL(node);
@@ -98,111 +92,74 @@ AVLNode* AVLTree::inserir(AVLNode* node, string valor) {
         }
     }
 
-    node->setHeight(maximo( height(node->getLeft()), height(node->getRight()) ) + 1);
+    node->setHeight(maximo(height(node->getLeft()), height(node->getRight())) + 1);
 
     return node;
 }
 
-AVLNode* AVLTree::rotateLL(AVLNode *node) {
+AVLNode *AVLTree::rotateLL(AVLNode *node) {
     AVLNode *leftSubTree = node->getLeft();
 
     node->setLeft(leftSubTree->getRight());
-    leftSubTree->setRight( node );
+    leftSubTree->setRight(node);
 
-    node->setHeight( maximo(height(node->getLeft()), height(node->getRight())) + 1);
+    node->setHeight(maximo(height(node->getLeft()), height(node->getRight())) + 1);
 
-    leftSubTree->setHeight( maximo(height(leftSubTree->getLeft()), height(node) + 1));
+    leftSubTree->setHeight(maximo(height(leftSubTree->getLeft()), height(node) + 1));
 
     return leftSubTree;
 }
 
-AVLNode* AVLTree::rotateRR(AVLNode *node) {
+AVLNode *AVLTree::rotateRR(AVLNode *node) {
     AVLNode *rightSubTree = node->getRight();
 
     node->setRight(rightSubTree->getLeft());
-    rightSubTree->setLeft( node );
+    rightSubTree->setLeft(node);
 
-    node->setHeight( maximo(height(node->getLeft()), height(node->getRight())) + 1);
+    node->setHeight(maximo(height(node->getLeft()), height(node->getRight())) + 1);
 
-    rightSubTree->setHeight( maximo(height(rightSubTree->getRight()), height(node) + 1));
+    rightSubTree->setHeight(maximo(height(rightSubTree->getRight()), height(node) + 1));
 
     return rightSubTree;
 }
 
-
-AVLNode* AVLTree::rotateLR(AVLNode *node) {
+AVLNode *AVLTree::rotateLR(AVLNode *node) {
     node->setLeft(rotateRR(node->getLeft()));
 
     return rotateLL(node);
 }
 
-AVLNode* AVLTree::rotateRL(AVLNode *node) {
+AVLNode *AVLTree::rotateRL(AVLNode *node) {
     node->setRight(rotateLL(node->getRight()));
 
     return rotateRR(node);
-}
-
-void AVLTree::preOrder() {
-    preOrder(root);
 }
 
 void AVLTree::inOrder() {
     inOrder(root);
 }
 
-void AVLTree::posOrder() {
-    posOrder(root);
-}
-
-void AVLTree::reverseOrder() {
-    reverseOrder(root);
-}
-
-void AVLTree::preOrder(AVLNode *no) {
-    if (no != NULL) {
-        cout<< no->getData() << ": " << no->getQuantity() << endl;
-        preOrder(no->getLeft());
-        preOrder(no->getRight());
+void AVLTree::inOrder(AVLNode *node) {
+    if (node != NULL) {
+        inOrder(node->getLeft());
+        cout << node->getData() << ": " << node->getQuantity() << endl;
+        inOrder(node->getRight());
     }
 }
 
-void AVLTree::posOrder(AVLNode *no) {
-    if (no != NULL) {
-        posOrder(no->getLeft());
-        posOrder(no->getRight());
-        cout<< no->getData() << ": " << no->getQuantity() << endl;
-    }
-}
-
-void AVLTree::inOrder(AVLNode *no) {
-    if (no != NULL) {
-        inOrder(no->getLeft());
-        cout<< no->getData() << ": " << no->getQuantity() << endl;
-        inOrder(no->getRight());
-    }
-}
-
-void AVLTree::reverseOrder(AVLNode *no) {
-    if (no != NULL) {
-        reverseOrder(no->getRight());
-        cout<< no->getData() << ": " << no->getQuantity() << endl;
-        reverseOrder(no->getLeft());
-    }
-}
-
-void AVLTree::gerarTopTrendings(AVLNode * no) {
-    if(no != NULL){
-        gerarTopTrendings(no->getLeft());
-        Elemento * e = new Elemento(no->getData(), no->getQuantity());
+void AVLTree::generateTopTrendings(AVLNode *node) {
+    if (node != NULL) {
+        generateTopTrendings(node->getLeft());
+        Element *e = new Element(node->getData(), node->getQuantity());
         topTrendings.push_back(e);
-        gerarTopTrendings(no->getRight());
+        generateTopTrendings(node->getRight());
     }
 }
 
-void AVLTree::imprimirTopTrendings(){
-    topTrendings.sort([](Elemento * lhs, Elemento* rhs){return lhs->getValor() > rhs->getValor();});
-    for(auto& el: topTrendings){
-        el->print_element();
+void AVLTree::printTopTrendings() {
+    topTrendings.sort([](Element *lhs, Element *rhs) { return lhs->getRepetitions() > rhs->getRepetitions(); });
+    for (auto &el: topTrendings) {
+        el->printElement();
     }
 }
 

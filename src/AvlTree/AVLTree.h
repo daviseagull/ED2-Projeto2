@@ -1,7 +1,7 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 #include "AVLNode.h"
-#include "../List/elemento.h"
+#include "../List/element.h"
 #include <list>
 #include <iostream>
 
@@ -9,6 +9,21 @@ using namespace std;
 
 class AVLTree
 {
+private:
+    AVLNode *root;
+    int comparisons = 0;
+    list<Element*> topTrendings;
+
+    int height(AVLNode*);
+    int qtNodes(AVLNode*);
+    AVLNode* insert(AVLNode* node, string value);
+    void inOrder(AVLNode *node);
+    AVLNode* rotateLL(AVLNode*);
+    AVLNode* rotateRR(AVLNode*);
+    AVLNode* rotateLR(AVLNode*);
+    AVLNode* rotateRL(AVLNode*);
+    int maximo(int, int);
+
 public:
     AVLTree();
     virtual ~AVLTree();
@@ -16,36 +31,13 @@ public:
     bool isEmpty();
     int height();
     int qtNodes();
-    void inserir (string valor);
-    void preOrder();
-    void posOrder();
+    void insert (string value);
     void inOrder();
-    void reverseOrder();
-    void setQtd(int qtd);
-    int getQtd();
-    void addOneQtd();
-    void imprimirTopTrendings();
-    void gerarTopTrendings(AVLNode* no);
-
-protected:
-
-private:
-    AVLNode *root;
-    int qtd;
-    list<Elemento*> topTrendings;
-
-    int height(AVLNode*);
-    int qtNodes(AVLNode*);
-    AVLNode* inserir(AVLNode*, string);
-    void preOrder(AVLNode *no);
-    void posOrder(AVLNode *no);
-    void inOrder(AVLNode *no);
-    AVLNode* rotateLL(AVLNode*);
-    AVLNode* rotateRR(AVLNode*);
-    AVLNode* rotateLR(AVLNode*);
-    AVLNode* rotateRL(AVLNode*);
-    void reverseOrder(AVLNode*);
-    int maximo(int, int);
+    void setComparisons(int comparisons);
+    int getComparisons();
+    void addComparisons();
+    void printTopTrendings();
+    void generateTopTrendings(AVLNode* node);
 
 };
 
