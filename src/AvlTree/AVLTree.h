@@ -1,6 +1,8 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 #include "AVLNode.h"
+#include "../List/elemento.h"
+#include <set>
 #include <iostream>
 
 using namespace std;
@@ -22,12 +24,15 @@ public:
     void setQtd(int qtd);
     int getQtd();
     void addOneQtd();
+    void imprimirTopTrendings();
+    void gerarTopTrendings(AVLNode* no);
 
 protected:
 
 private:
     AVLNode *root;
     int qtd;
+    set<Elemento> topTrendings;
 
     int height(AVLNode*);
     int qtNodes(AVLNode*);

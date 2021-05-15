@@ -190,4 +190,18 @@ void AVLTree::reverseOrder(AVLNode *no) {
     }
 }
 
+void AVLTree::gerarTopTrendings(AVLNode * no) {
+    if(no != NULL){
+        gerarTopTrendings(no->getLeft());
+        topTrendings.insert({no->getData(),no->getQuantity()});
+        gerarTopTrendings(no->getRight());
+    }
+}
+
+void AVLTree::imprimirTopTrendings(){
+    for(auto& el: topTrendings){
+        el.print_element();
+    }
+}
+
 

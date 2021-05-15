@@ -2,6 +2,7 @@
 
 #include "BinaryNode.h"
 #include "BinaryTree.h"
+#include "../List/elemento.h"
 
 using namespace std;
 
@@ -46,6 +47,19 @@ void BinaryTree::inserirAux(BinaryNode *no, string chave) {
     }
 }
 
+void BinaryTree::gerarTopTrendings(BinaryNode * no) {
+    if(no != NULL){
+        gerarTopTrendings(no->getEsq());
+        topTrendings.insert({no->getChave(),no->getRepeticoes()});
+        gerarTopTrendings(no->getDir());
+    }
+}
+
+void BinaryTree::imprimirTopTrendings(){
+    for(auto& el: topTrendings){
+        el.print_element();
+    }
+}
 
 int BinaryTree::getComparacoes() {
     return this->comparacoes;
