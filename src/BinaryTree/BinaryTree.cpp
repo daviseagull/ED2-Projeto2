@@ -78,16 +78,14 @@ BinaryNode* BinaryTree::getRoot() {
 
 void BinaryTree::printBT(string prefix, BinaryNode* node, bool isLeft)
 {
-    if( node != nullptr )
+    if( node != NULL )
     {
-        std::cout << prefix;
+        cout << prefix;
+        cout << (isLeft ? "├──" : "└──" );
+        cout << node->getKey() << std::endl;
 
-        std::cout << (isLeft ? "|--" : "|--" );
-
-        std::cout << node->getKey() << std::endl;
-
-        printBT( prefix + (isLeft ? "|   " : "    "), node->getLeft(), true);
-        printBT( prefix + (isLeft ? "|   " : "    "), node->getRight(), false);
+        printBT( prefix + (isLeft ? "│   " : "    "), node->getLeft(), true);
+        printBT( prefix + (isLeft ? "│   " : "    "), node->getRight(), false);
     }
 }
 

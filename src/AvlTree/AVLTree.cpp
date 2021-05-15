@@ -165,16 +165,14 @@ void AVLTree::printTopTrendings() {
 
 void AVLTree::printBT(string prefix, AVLNode* node, bool isLeft)
 {
-    if( node != nullptr )
+    if( node != NULL )
     {
-        std::cout << prefix;
+        cout << prefix;
+        cout << (isLeft ? "├──" : "└──" );
+        cout << node->getData() << std::endl;
 
-        std::cout << (isLeft ? "|--" : "|--" );
-
-        std::cout << node->getData() << std::endl;
-
-        printBT( prefix + (isLeft ? "|   " : "    "), node->getLeft(), true);
-        printBT( prefix + (isLeft ? "|   " : "    "), node->getRight(), false);
+        printBT( prefix + (isLeft ? "│   " : "    "), node->getLeft(), true);
+        printBT( prefix + (isLeft ? "│   " : "    "), node->getRight(), false);
     }
 }
 
